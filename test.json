@@ -1,0 +1,60 @@
+"{
+  getProducts(
+    pagination: { skip: 0, limit: 10 }
+    filter: {
+      uid: "P-4TCF9V"        # or use posItemCode: "25311"
+    }
+  ) {
+    message
+    statusCode
+    result {
+      count
+      products {
+        uid
+        enName                  # Product title
+
+        images {                # Image gallery
+          url
+        }
+
+        productAttributes {     # → Basic Information tab
+          enLabel
+          values { enName }
+        }
+
+        detailedDescriptions {  # → Detailed Information tab
+          enLabel
+          values { enName }
+        }
+
+        deliveries {            # → Terms & Conditions tab
+          enLabel
+          values { enName }
+        }
+
+        serviceAndDeliveries {  # → Warranty Information tab
+          enLabel
+          values { enName }
+        }
+
+        priceAndStocks {        # → Special Feature section
+          enLabel
+          values { enName }
+        }
+
+        variants {              # → Price & variant selector
+          mrpPrice
+          ebsItemCode
+          posItemCode
+          quantity
+          discount {
+            amount
+            value
+            type
+          }
+        }
+      }
+    }
+  }
+}
+"
