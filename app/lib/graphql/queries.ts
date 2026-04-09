@@ -3,11 +3,12 @@
 // const GET_PRODUCTS = gql`
 //     query GetProducts($)
 // `;
-export const GET_PRODUCT_QUERY = `
-    query ($skip: Int!, $limit: Int!, $uid: String) {
+export const GET_PRODUCTS = `
+    query ($skip: Int!, $limit: Int!, $uid: String, $posItemCode: String, $sort: ProductStockSort) {
         getProducts(
                 pagination: { skip: $skip, limit: $limit }
-                filter: { uid: $uid }
+                filter: { uid: $uid, posItemCode: $posItemCode }
+                sort: $sort
             ) {
             result {
                 count
@@ -57,5 +58,33 @@ export const GET_PRODUCT_QUERY = `
                 }
             }
         }
+    }
+`;
+
+export const GET_PRODUCT = `
+    query ($uid: String!) {
+      getProducts(
+        filter: { uid: $uid }
+        pagination: { skip: 0, limit: 1 }
+      ) {
+        result {
+          products {
+            uid
+            enName
+            images {
+              url
+            }
+            variants {
+              mrpPrice
+              quantity
+              discount {
+                amount
+                value
+                type
+              }
+            }
+          }
+        }
+      }
     }
 `;

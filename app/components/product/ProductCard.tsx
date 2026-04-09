@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/store/slices/cartSlice";
 import Image from "next/image";
 import Link from "next/link";
+import { splitName } from "@/app/utils/helper";
 
 export default function ProductCard({ product }: any) {
   const dispatch = useDispatch();
@@ -21,21 +22,13 @@ export default function ProductCard({ product }: any) {
       ? `${variant.discount?.amount}% OFF`
       : `Save ৳${variant.discount?.amount}`;
 
-  const splitName = (str: string) => {
-    const parts = str.split("|");
-    return {
-      firstLine: parts[0] ? parts[0].trim() : str,
-      secondLine: parts[1] ? parts[1].trim() : "",
-    };
-  };
-
   return (
     <div className="product-card">
       <Link href={`/products/${product.uid}`} className="block group">
         <div className="relative w-full aspect-4/3 overflow-hidden rounded-t-md">
           <Image
-            src={product.images?.[0]?.url}
-            alt={product.enName}
+            src={product.images?.[0]?.url || "/placeholder.png"}
+            alt={product.enName || "product"}
             fill
             sizes="(max-width: 640px) 100vw,
                  (max-width: 1024px) 50vw,

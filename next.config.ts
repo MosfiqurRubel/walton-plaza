@@ -6,8 +6,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        // source: "/api/graphql",
-        source: process.env.NEXT_PUBLIC_GRAPHQL_API || "/api/graphql",
+        source: "/api/graphql", // Always static
         destination: "https://devapi.waltonplaza.com.bd/graphql",
       },
     ];
@@ -15,10 +14,19 @@ const nextConfig: NextConfig = {
 
   images: {
     remotePatterns: [
+      // {
+      //   protocol: "https",
+      //   hostname: "cdn.waltonplaza.com.bd",
+      //   pathname: "/**",
+      // },
+      // {
+      //   protocol: "https",
+      //   hostname: "devcdn.waltonplaza.com.bd",
+      //   pathname: "/**",
+      // },
       {
         protocol: "https",
-        hostname: "cdn.waltonplaza.com.bd",
-        pathname: "/**",
+        hostname: "**.waltonplaza.com.bd",
       },
     ],
   },

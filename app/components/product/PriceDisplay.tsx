@@ -1,24 +1,67 @@
-import React from "react";
+import { Discount } from "@/app/types/product";
 
 type PriceDisplayProps = {
-  price: number;
-  discount?: number;
+  mrpPrice: number;
+  discount?: Discount;
 };
 
-const PriceDisplay = ({ price, discount }: PriceDisplayProps) => {
-  // If type is 'flat'
-  const sellingPrice = discount ? price - discount : price;
+const PriceDisplay = ({ mrpPrice, discount }: PriceDisplayProps) => {
+  let sellingPrice = mrpPrice;
 
-  // If type is 'percentage'
-  const discountedPrice = discount ? price - (price * discount) / 100 : price;
+  if (discount) {
+    if (discount.type === "flat") {
+      sellingPrice = mrpPrice - discount.amount;
+    } else if (discount.type === "percentage") {
+      sellingPrice = mrpPrice - (mrpPrice * discount.amount) / 100;
+    } else {
+      sellingPrice = mrpPrice;
+    }
+
+    if (discount.value) {
+      sellingPrice = discount.value;
+    }
+  }
+
+  // if (discount) {
+  //   if (discount.type === "flat") {
+  //     sellingPrice = mrpPrice - discount.amount;
+  //   } else if (discount.type === "percentage") {
+  //     sellingPrice = mrpPrice - (mrpPrice * discount.amount) / 100;
+  //   }
+  // }
+
+  // If type is 'flat'
+  // const sellingPrice = discount ? price - discount : price;
+
+  // // If type is 'percentage'
+  // const discountedPrice = discount ? price - (price * discount) / 100 : price;
   return (
     <div className="mt-4">
-      <p>৳{price}</p>
+      <p className="text-xl font-bold text-green-600">
+        ৳{sellingPrice.toLocaleString()}
+      </p>
+
+      {discount && (
+        <div className="flex items-center gap-2">
+          <p className="line-through text-gray-500">
+            ৳{mrpPrice.toLocaleString()}
+          </p>
+          {discount.type === "flat" ? (
+            <span className="text-red-500 text-sm">
+              Save ৳{discount.amount}
+            </span>
+          ) : (
+            <span className="text-red-500 text-sm">{discount.amount}% OFF</span>
+          )}
+        </div>
+      )}
+
+      {/* <p>৳{price}</p>
       {discount && (
         <p className="line-through text-gray-500">
           Save: {discountedPrice.toFixed(2)} (Original: ৳{price.toFixed(2)})
         </p>
-      )}
+      )} */}
     </div>
   );
 };

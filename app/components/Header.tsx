@@ -36,7 +36,7 @@ export default function Header() {
             scrolled ? "text-lg" : "text-2xl",
           )}
         >
-          MyShop
+          <NavLink href="/products">MyShop</NavLink>
         </h1>
 
         {/* Desktop Nav */}

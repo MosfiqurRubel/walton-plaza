@@ -1,24 +1,42 @@
 import { baseApi } from "@/app/store/services/baseApi";
-import { Product } from "@/app/types/product";
-import { GET_PRODUCT_QUERY } from "@/app/lib/graphql/queries";
+import { Product, ProductStockSort } from "@/app/types/product";
+import { GET_PRODUCT, GET_PRODUCTS } from "@/app/lib/graphql/queries";
 
 export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<
       Product[],
-      { skip: number; limit: number; uid?: string }
+      {
+        skip: number;
+        limit: number;
+        uid?: string;
+        posItemCode?: string;
+        sort?: ProductStockSort;
+      }
     >({
-      query: ({ skip, limit, uid }) => ({
+      query: ({ skip, limit, uid, posItemCode, sort }) => ({
         url: "/",
         method: "POST",
         body: {
-          query: GET_PRODUCT_QUERY,
-          variables: { skip, limit, uid },
+          query: GET_PRODUCTS,
+          variables: { skip, limit, uid, posItemCode, sort },
         },
       }),
 
       transformResponse: (response: any) =>
         response?.data?.getProducts?.result?.products ?? [],
+
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+
+      merge: (currentCache, newItem) => {
+        currentCache.push(...newItem);
+      },
+
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.skip !== previousArg?.skip;
+      },
 
       providesTags: (result) =>
         result
@@ -37,33 +55,7 @@ export const productApi = baseApi.injectEndpoints({
         url: "/",
         method: "POST",
         body: {
-          query: `
-            query GetProduct($uid: String!) {
-              getProducts(
-                filter: { uid: $uid }
-                pagination: { skip: 0, limit: 1 }
-              ) {
-                result {
-                  products {
-                    uid
-                    enName
-                    images {
-                      url
-                    }
-                    variants {
-                      mrpPrice
-                      quantity
-                      discount { 
-                        amount
-                        value
-                        type 
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          `,
+          query: GET_PRODUCT,
           variables: { uid },
         },
       }),
