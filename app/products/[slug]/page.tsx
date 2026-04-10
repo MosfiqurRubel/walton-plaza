@@ -2,7 +2,6 @@ import { serverFetch } from "@/app/lib/graphql/serverFetch";
 import { GET_PRODUCT } from "@/app/lib/graphql/queries";
 import { splitName } from "@/app/utils/helper";
 import dynamic from "next/dynamic";
-// import ProductGallery from "@/app/components/product/ProductGallery";
 import PriceDisplay from "@/app/components/product/PriceDisplay";
 import StockCTA from "@/app/components/product/StockCTA";
 
@@ -12,36 +11,6 @@ export default async function ProductDetails({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params; // 🔥 MUST DO
-
-  // const data = await serverFetch(
-  //   `
-  //   query ($uid: String!) {
-  //     getProducts(
-  //       filter: { uid: $uid }
-  //       pagination: { skip: 0, limit: 1 }
-  //     ) {
-  //       result {
-  //         products {
-  //           uid
-  //           enName
-  //           images {
-  //             url
-  //           }
-  //           variants {
-  //             mrpPrice
-  //             quantity
-  //             discount {
-  //               amount
-  //               value
-  //               type
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }`,
-  //   { uid: slug },
-  // );
 
   const data = await serverFetch(GET_PRODUCT, {
     uid: slug,
@@ -72,21 +41,15 @@ export default async function ProductDetails({
 
         <PriceDisplay
           mrpPrice={variant?.mrpPrice}
-          // discount={{
-          //   amount: variant?.discount?.amount ? variant.discount.amount : 15,
-          //   type: variant?.discount?.type,
-          //   value: variant?.discount?.value ? variant.discount.value : 38250,
-          // }}
-          discount={{ amount: 15, type: "percentage", value: 38250 }}
+          discount={{
+            amount: variant?.discount?.amount,
+            type: variant?.discount?.type,
+            value: variant?.discount?.value,
+          }}
+          // discount={{ amount: 15, type: "percentage", value: 38250 }}
         />
 
         <StockCTA inStock={variant?.quantity > 0} />
-
-        {/* <img
-          src={product.images?.[0]?.url}
-          alt={splitName(product.enName).firstLine}
-          className="w-full max-w-md"
-        /> */}
       </div>
     </div>
   );

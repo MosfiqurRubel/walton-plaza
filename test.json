@@ -58,3 +58,86 @@
   }
 }
 "
+
+
+
+
+
+variables: 
+variables:{,…}
+filter: {filterOptions: [{key: "category", values: ["Split AC"]}], priceFilterOption: {max: 0, min: 0},…}
+categoryUid: "C-KARC7W"
+filterOptions: 
+[{key: "category", values: ["Split AC"]}]
+0: {key: "category", values: ["Split AC"]}
+key: "category"
+values: ["Split AC"]
+0: "Split AC"
+isActive: true
+priceFilterOption: {max: 0, min: 0}
+pagination: {limit: 21, skip: 0}
+limit: 21
+skip: 0
+sort: "PRICE_LOW_TO_HIGH"
+
+
+
+
+{
+    "data": {
+        "getProducts": {
+            "message": "SUCCESS",
+            "result": {
+                "count": 132,
+                "products": [
+                    {
+                        "bnName": "ওয়ালটন ইনভার্টার এসি ১.৫ টন | WSI-INVERNA (EXTREME SAVER)-18H [SMART PLASMA]",
+                        "slug": "walton-inverter-ac-15-ton-wsi-inverna-extreme-saver-18h-smart-plasma",
+                        "inventoryStockUid": null,
+                        "isStockAvilable": null,
+                        "isFairEnable": false,
+                        "isDiscountPercentageShowable": false,
+                        "vatPercentage": 0,
+                        "fair": null,
+                        "category": {
+                            "uid": "C-UJ79CT",
+                            "enName": "Split AC",
+                            "__typename": "ProductCategory"
+                        },
+                        "enName": "Walton Inverter AC 1.5 Ton | WSI-INVERNA (EXTREME SAVER)-18H [SMART PLASMA]",
+                        "images": [
+                            {
+                                "url": "https://cdn.waltonplaza.com.bd/83d9482c-7034-4327-a644-047ecac51344.jpeg",
+                                "signedUrl": null,
+                                "name": "83d9482c-7034-4327-a644-047ecac51344.jpeg",
+                                "__typename": "Avatar"
+                            }
+                        ],
+                        "isActive": true,
+                        "uid": "P-3VPASN",
+                        "variants": [
+                            {
+                                "mrpPrice": 80990,
+                                "previousPrice": 0,
+                                "isAvailable": false,
+                                "discount": {
+                                    "amount": 10528.7,
+                                    "type": "PERCENTAGE",
+                                    "value": 13,
+                                    "percentage": 13,
+                                    "applicableFor": null,
+                                    "isApplicableForShoppingCart": null,
+                                    "__typename": "ProductVariantDiscount"
+                                },
+                                "__typename": "ProductVariant"
+                            }
+                        ],
+                        "isFavorite": null,
+                        "deliveryDiscount": null,
+                        "__typename": "Product"
+                    },
+                }
+            }
+        }
+    }
+}

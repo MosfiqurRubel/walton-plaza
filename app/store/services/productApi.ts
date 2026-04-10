@@ -26,12 +26,15 @@ export const productApi = baseApi.injectEndpoints({
       transformResponse: (response: any) =>
         response?.data?.getProducts?.result?.products ?? [],
 
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
+      serializeQueryArgs: ({ queryArgs }) => {
+        return queryArgs;
       },
 
-      merge: (currentCache, newItem) => {
-        currentCache.push(...newItem);
+      merge: (currentCache, newItems, { arg }) => {
+        if (arg.skip === 0) {
+          return newItems; // filter change → reset
+        }
+        currentCache.push(...newItems);
       },
 
       forceRefetch({ currentArg, previousArg }) {

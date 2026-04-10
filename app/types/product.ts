@@ -6,7 +6,12 @@ export interface Product {
   uid: string;
   enName: string;
   posItemCode?: string;
+  categoryUid?: string;
+  category?: string;
+  min?: number;
+  max?: number;
   images: ProductImage[];
+  sort?: ProductStockSort;
 }
 
 export interface Discount {

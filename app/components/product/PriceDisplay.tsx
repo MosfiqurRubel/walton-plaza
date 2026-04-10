@@ -22,14 +22,6 @@ const PriceDisplay = ({ mrpPrice, discount }: PriceDisplayProps) => {
     }
   }
 
-  // if (discount) {
-  //   if (discount.type === "flat") {
-  //     sellingPrice = mrpPrice - discount.amount;
-  //   } else if (discount.type === "percentage") {
-  //     sellingPrice = mrpPrice - (mrpPrice * discount.amount) / 100;
-  //   }
-  // }
-
   // If type is 'flat'
   // const sellingPrice = discount ? price - discount : price;
 
@@ -55,13 +47,6 @@ const PriceDisplay = ({ mrpPrice, discount }: PriceDisplayProps) => {
           )}
         </div>
       )}
-
-      {/* <p>৳{price}</p>
-      {discount && (
-        <p className="line-through text-gray-500">
-          Save: {discountedPrice.toFixed(2)} (Original: ৳{price.toFixed(2)})
-        </p>
-      )} */}
     </div>
   );
 };

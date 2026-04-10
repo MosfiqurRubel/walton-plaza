@@ -3,11 +3,15 @@
 // const GET_PRODUCTS = gql`
 //     query GetProducts($)
 // `;
+// query ($skip: Int!, $limit: Int!, $uid: String, $posItemCode: String, $sort: ProductStockSort) {
+// pagination: { skip: $skip, limit: $limit }
+// filter: { uid: $uid, posItemCode: $posItemCode }
+// sort: $sort
 export const GET_PRODUCTS = `
     query ($skip: Int!, $limit: Int!, $uid: String, $posItemCode: String, $sort: ProductStockSort) {
         getProducts(
-                pagination: { skip: $skip, limit: $limit }
                 filter: { uid: $uid, posItemCode: $posItemCode }
+                pagination: { skip: $skip, limit: $limit }
                 sort: $sort
             ) {
             result {
@@ -53,6 +57,7 @@ export const GET_PRODUCTS = `
                             amount
                             value
                             type
+                            percentage
                         }
                     }
                 }
@@ -81,6 +86,7 @@ export const GET_PRODUCT = `
                 amount
                 value
                 type
+                percentage
               }
             }
           }

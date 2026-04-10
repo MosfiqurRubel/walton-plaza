@@ -2,41 +2,47 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useGetProductsQuery } from "@/app/store/services/productApi";
-import { Product } from "@/app/types/product";
-import Loading from "@/app/components/ui/loading";
-import ProductCard from "@/app/components/product/ProductCard";
+import { Product, ProductStockSort } from "@/app/types/product";
+import ProductCard from "./ProductCard";
 
-type ProductListProps = {
-  initialProducts: any[];
+type Props = {
+  initialProducts: Product[];
+  sort: ProductStockSort;
 };
 
-const ProductList = ({ initialProducts }: ProductListProps) => {
+const ProductList = ({ initialProducts, sort }: Props) => {
   const [page, setPage] = useState(1);
   const limit = 10;
 
+  const [allProducts, setAllProducts] = useState<Product[]>(initialProducts);
+
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  const {
-    data: newProducts = [],
-    isLoading,
-    isError,
-    isFetching,
-  } = useGetProductsQuery({ skip: page * limit, limit });
+  // ✅ RTK Query (next pages)
+  const { data, isFetching } = useGetProductsQuery({
+    skip: page * limit,
+    limit,
+    sort,
+  });
 
-  const [allProducts, setAllProducts] = useState<any[]>(initialProducts);
-
-  // Append new products
+  // ✅ Reset when sort changes
   useEffect(() => {
-    if (newProducts?.length > 0) {
+    setAllProducts(initialProducts);
+    setPage(1);
+  }, [initialProducts, sort]);
+
+  // ✅ Append new products
+  useEffect(() => {
+    if (data?.length) {
       setAllProducts((prev) => {
         const ids = new Set(prev.map((p) => p.uid));
-        const filterd = newProducts.filter((p) => !ids.has(p.uid));
-        return [...prev, ...filterd];
+        const newItems = data.filter((p: Product) => !ids.has(p.uid));
+        return [...prev, ...newItems];
       });
     }
-  }, [newProducts]);
+  }, [data]);
 
-  // Infinite Scroll (Auto Load)
+  // ✅ Infinite Scroll Observer
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !isFetching) {
@@ -51,46 +57,48 @@ const ProductList = ({ initialProducts }: ProductListProps) => {
     return () => observer.disconnect();
   }, [isFetching]);
 
-  //   const allProducts = [...initialProducts, ...(newProducts || [])];
-  // const {
-  //   data: products,
-  //   isLoading,
-  //   isError,
-  // } = useGetProductsQuery({
-  //   skip: (page - 1) * limit,
-  //   limit,
-  //   uid: "",
-  //   // posItemCode: "25311",
-  //   sort: ProductStockSort.NONE,
-  // });
-
-  if (isLoading && allProducts.length === 0) return <Loading />;
-
-  if (isError)
-    return <p className="text-center text-red-500">Failed to load</p>;
-
   return (
     <main className="container mx-auto">
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {allProducts?.map((p: Product) => (
+        {allProducts.map((p) => (
           <ProductCard key={p.uid} product={p} />
         ))}
       </div>
 
-      {isFetching && (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-40 bg-gray-200 animate-pulse rounded-lg"
-            />
-          ))}
-        </div>
-      )}
+      {/* Loader */}
+      {isFetching && <p className="text-center mt-4">Loading...</p>}
 
-      <div ref={loadMoreRef} className="h-10"></div>
+      {/* Trigger */}
+      <div ref={loadMoreRef} className="h-10" />
     </main>
   );
 };
 
 export default ProductList;
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { Product } from "@/app/types/product";
+// import ProductCard from "./ProductCard";
+
+// const ProductList = ({ initialProducts }: any) => {
+//   const [allProducts, setAllProducts] = useState(initialProducts);
+
+//   // ✅ FIX: update when server data changes
+//   useEffect(() => {
+//     setAllProducts(initialProducts);
+//   }, [initialProducts]);
+
+//   return (
+//     <main className="container mx-auto">
+//       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+//         {allProducts?.map((p: Product) => (
+//           <ProductCard key={p.uid} product={p} />
+//         ))}
+//       </div>
+//     </main>
+//   );
+// };
+
+// export default ProductList;
