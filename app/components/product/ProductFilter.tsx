@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { ProductStockSort } from "@/app/types/product";
+import Select from "@/app/components/ui/Select";
 
 const ProductFilter = () => {
   const router = useRouter();
@@ -21,24 +22,65 @@ const ProductFilter = () => {
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
+  const sortOptions = [
+    { value: ProductStockSort.NONE, label: "Best Match" },
+    { value: ProductStockSort.PRICE_LOW_TO_HIGH, label: "Price Low to High" },
+    { value: ProductStockSort.PRICE_HIGH_TO_LOW, label: "Price High to Low" },
+  ];
+
   return (
-    <select
+    <Select
+      options={sortOptions}
       value={currentSort}
-      onChange={(e) => handleSortChange(e.target.value)}
+      onChange={handleSortChange}
       className="border p-2 rounded"
-    >
-      <option value="">Default</option>
-      <option value={ProductStockSort.PRICE_LOW_TO_HIGH}>
-        Price Low to High
-      </option>
-      <option value={ProductStockSort.PRICE_HIGH_TO_LOW}>
-        Price High to Low
-      </option>
-    </select>
+    />
   );
 };
 
 export default ProductFilter;
+
+// "use client";
+
+// import { useRouter, useSearchParams } from "next/navigation";
+// import { ProductStockSort } from "@/app/types/product";
+
+// const ProductFilter = () => {
+//   const router = useRouter();
+//   const searchParams = useSearchParams();
+
+//   const currentSort = searchParams.get("sort") || "";
+
+//   const handleSortChange = (value: string) => {
+//     const params = new URLSearchParams(searchParams.toString());
+
+//     if (value) {
+//       params.set("sort", value);
+//     } else {
+//       params.delete("sort");
+//     }
+
+//     router.push(`?${params.toString()}`, { scroll: false });
+//   };
+
+//   return (
+//     <select
+//       value={currentSort}
+//       onChange={(e) => handleSortChange(e.target.value)}
+//       className="border p-2 rounded"
+//     >
+//       <option value="">Default</option>
+//       <option value={ProductStockSort.PRICE_LOW_TO_HIGH}>
+//         Price Low to High
+//       </option>
+//       <option value={ProductStockSort.PRICE_HIGH_TO_LOW}>
+//         Price High to Low
+//       </option>
+//     </select>
+//   );
+// };
+
+// export default ProductFilter;
 
 // "use client";
 
