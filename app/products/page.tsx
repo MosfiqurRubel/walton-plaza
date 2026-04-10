@@ -10,8 +10,6 @@ type ProductsPageProps = {
     sort?: string;
     min?: string;
     max?: string;
-    isActive?: boolean;
-    posItemCode?: string;
   }>;
 };
 
@@ -22,18 +20,22 @@ export default async function ProductsPage({
   const category = params?.category || "";
   const min = Number(params?.min || 0);
   const max = Number(params?.max || 0);
-  const isActive = params?.isActive || true;
   const sort = (params?.sort as ProductStockSort) || ProductStockSort.NONE;
 
   try {
     const data = await serverFetch(GET_PRODUCTS, {
       skip: 0,
       limit: 10,
-      category,
-      minPrice: min,
-      maxPrice: max,
-      isActive,
       sort,
+      filter: {
+        isActive: true,
+        categoryUid: category || undefined,
+        priceFilterOption: {
+          min,
+          max,
+        },
+        filterOptions: [],
+      },
     });
 
     const products = data?.getProducts?.result?.products || [];
@@ -54,7 +56,9 @@ export default async function ProductsPage({
         <ProductList
           initialProducts={products}
           sort={sort}
-          isActive={isActive}
+          category={category}
+          minPrice={min}
+          maxPrice={max}
         />
       </>
     );

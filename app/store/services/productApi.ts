@@ -9,18 +9,31 @@ export const productApi = baseApi.injectEndpoints({
       {
         skip: number;
         limit: number;
-        uid?: string;
-        posItemCode?: string;
         sort?: ProductStockSort;
-        isActive: boolean;
+        category?: string;
+        minPrice?: number;
+        maxPrice?: number;
       }
     >({
-      query: ({ skip, limit, uid, posItemCode, sort, isActive }) => ({
+      query: ({ skip, limit, sort, category, minPrice, maxPrice }) => ({
         url: "/",
         method: "POST",
         body: {
           query: GET_PRODUCTS,
-          variables: { skip, limit, uid, posItemCode, sort, isActive },
+          variables: {
+            skip,
+            limit,
+            sort,
+            filter: {
+              isActive: true,
+              categoryUid: category || undefined,
+              priceFilterOption: {
+                min: minPrice || 0,
+                max: maxPrice || 0,
+              },
+              filterOptions: [],
+            },
+          },
         },
       }),
 

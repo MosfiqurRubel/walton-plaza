@@ -26,6 +26,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
             className="w-20 h-20 object-cover rounded-md cursor-pointer hover:ring-2 hover:ring-blue-500"
           />
         ))}
+        fdsaf
       </div>
     </div>
   );

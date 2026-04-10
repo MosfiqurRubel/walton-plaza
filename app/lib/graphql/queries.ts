@@ -1,7 +1,12 @@
 export const GET_PRODUCTS = `
-    query ($skip: Int!, $limit: Int!, $uid: String, $posItemCode: String, $isActive: Boolean, $sort: ProductStockSort) {
+    query (
+        $skip: Int!
+        $limit: Int!
+        $sort: ProductStockSort
+        $filter: ProductFilterInput
+    ) {
         getProducts(
-                filter: { uid: $uid, isActive: $isActive, posItemCode: $posItemCode }
+                filter: $filter
                 pagination: { skip: $skip, limit: $limit }
                 sort: $sort
             ) {

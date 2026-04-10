@@ -13,8 +13,6 @@ const PriceDisplay = ({ mrpPrice, discount }: PriceDisplayProps) => {
       sellingPrice = mrpPrice - discount.amount;
     } else if (discount.type === "percentage") {
       sellingPrice = mrpPrice - (mrpPrice * discount.amount) / 100;
-    } else {
-      sellingPrice = mrpPrice;
     }
 
     if (discount.value) {
@@ -30,13 +28,13 @@ const PriceDisplay = ({ mrpPrice, discount }: PriceDisplayProps) => {
   return (
     <div className="mt-4">
       <p className="text-xl font-bold text-green-600">
-        ৳{sellingPrice.toLocaleString()}
+        ৳{mrpPrice.toLocaleString()}
       </p>
 
       {discount && (
         <div className="flex items-center gap-2">
           <p className="line-through text-gray-500">
-            ৳{mrpPrice.toLocaleString()}
+            ৳{sellingPrice.toLocaleString()}
           </p>
           {discount.type === "flat" ? (
             <span className="text-red-500 text-sm">

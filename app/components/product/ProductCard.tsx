@@ -49,7 +49,7 @@ export default function ProductCard({ product }: any) {
         <div className="flex flex-col">
           {hasDiscount && (
             <span className="text-sm text-red-600 line-through">
-              ৳{variant?.mrpPrice?.toLocaleString()}
+              MRP ৳{variant?.mrpPrice?.toLocaleString()}
             </span>
           )}
 

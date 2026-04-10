@@ -8,10 +8,18 @@ import ProductCard from "./ProductCard";
 type Props = {
   initialProducts: Product[];
   sort: ProductStockSort;
-  isActive: boolean;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
 };
 
-const ProductList = ({ initialProducts, sort, isActive }: Props) => {
+const ProductList = ({
+  initialProducts,
+  sort,
+  category,
+  minPrice,
+  maxPrice,
+}: Props) => {
   const [page, setPage] = useState(1);
   const limit = 10;
 
@@ -24,14 +32,16 @@ const ProductList = ({ initialProducts, sort, isActive }: Props) => {
     skip: page * limit,
     limit,
     sort,
-    isActive,
+    category,
+    minPrice,
+    maxPrice,
   });
 
   // ✅ Reset when sort changes
   useEffect(() => {
     setAllProducts(initialProducts);
     setPage(1);
-  }, [initialProducts, sort, isActive]);
+  }, [initialProducts, sort, category, minPrice, maxPrice]);
 
   // ✅ Append new products
   useEffect(() => {
