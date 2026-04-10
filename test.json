@@ -60,6 +60,112 @@
 "
 
 
+{
+   "filter":{
+      "filterOptions":[
+         
+      ],
+      "priceFilterOption":{
+         "max":0,
+         "min":0
+      },
+      "isActive":true,
+      "categoryUid":"C-L9Z525"
+   },
+   "sort":"NONE",
+   "pagination":{
+      "limit":21,
+      "skip":0
+   }
+}
+
+// response
+"data":{
+   "getProducts":{
+      "message":"SUCCESS",
+      "result":{
+         "count":33,
+         "products":[
+            {
+               "bnName":"ওয়ালটন অ্যান্ড্রয়েড স্মার্টফোন | NEXG N71 Plus",
+               "slug":"walton-android-smartphone-nexg-n71-plus",
+               "inventoryStockUid":null,
+               "isStockAvilable":null,
+               "isFairEnable":false,
+               "isDiscountPercentageShowable":null,
+               "vatPercentage":7.5,
+               "fair":null,
+               "category":{
+                  "uid":"C-6Y52CZ",
+                  "enName":"Smart Phone",
+                  "__typename":"ProductCategory"
+               },
+               "enName":"Walton Android Smartphone | NEXG N71 Plus",
+               "images":[
+                  {
+                     "url":"https://cdn.waltonplaza.com.bd/c3ced2e0-b3b2-49ac-845a-3a9ab70b0c81.jpeg",
+                     "signedUrl":null,
+                     "name":"c3ced2e0-b3b2-49ac-845a-3a9ab70b0c81.jpeg",
+                     "__typename":"Avatar"
+                  }
+               ],
+               "isActive":true,
+               "uid":"P-L9MWFY",
+               "variants":[
+                  {
+                     "mrpPrice":13161,
+                     "previousPrice":0,
+                     "isAvailable":false,
+                     "discount":{
+                        "amount":394.83,
+                        "type":"PERCENTAGE",
+                        "value":3,
+                        "percentage":3,
+                        "applicableFor":null,
+                        "isApplicableForShoppingCart":null,
+                        "__typename":"ProductVariantDiscount"
+                     },
+                     "__typename":"ProductVariant"
+                  },
+                  {
+                     "mrpPrice":13161,
+                     "previousPrice":0,
+                     "isAvailable":false,
+                     "discount":{
+                        "amount":394.83,
+                        "type":"PERCENTAGE",
+                        "value":3,
+                        "percentage":3,
+                        "applicableFor":null,
+                        "isApplicableForShoppingCart":null,
+                        "__typename":"ProductVariantDiscount"
+                     },
+                     "__typename":"ProductVariant"
+                  },
+                  {
+                     "mrpPrice":13161,
+                     "previousPrice":0,
+                     "isAvailable":false,
+                     "discount":{
+                        "amount":394.83,
+                        "type":"PERCENTAGE",
+                        "value":3,
+                        "percentage":3,
+                        "applicableFor":null,
+                        "isApplicableForShoppingCart":null,
+                        "__typename":"ProductVariantDiscount"
+                     },
+                     "__typename":"ProductVariant"
+                  }
+               ],
+               "isFavorite":null,
+               "deliveryDiscount":null,
+               "__typename":"Product"
+            }
+         ]
+      }
+   }
+}
 
 
 

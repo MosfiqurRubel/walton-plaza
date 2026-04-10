@@ -1,16 +1,7 @@
-// import { gql } from "@apollo/client";
-
-// const GET_PRODUCTS = gql`
-//     query GetProducts($)
-// `;
-// query ($skip: Int!, $limit: Int!, $uid: String, $posItemCode: String, $sort: ProductStockSort) {
-// pagination: { skip: $skip, limit: $limit }
-// filter: { uid: $uid, posItemCode: $posItemCode }
-// sort: $sort
 export const GET_PRODUCTS = `
-    query ($skip: Int!, $limit: Int!, $uid: String, $posItemCode: String, $sort: ProductStockSort) {
+    query ($skip: Int!, $limit: Int!, $uid: String, $posItemCode: String, $isActive: Boolean, $sort: ProductStockSort) {
         getProducts(
-                filter: { uid: $uid, posItemCode: $posItemCode }
+                filter: { uid: $uid, isActive: $isActive, posItemCode: $posItemCode }
                 pagination: { skip: $skip, limit: $limit }
                 sort: $sort
             ) {

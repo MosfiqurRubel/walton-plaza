@@ -8,9 +8,10 @@ import ProductCard from "./ProductCard";
 type Props = {
   initialProducts: Product[];
   sort: ProductStockSort;
+  isActive: boolean;
 };
 
-const ProductList = ({ initialProducts, sort }: Props) => {
+const ProductList = ({ initialProducts, sort, isActive }: Props) => {
   const [page, setPage] = useState(1);
   const limit = 10;
 
@@ -23,13 +24,14 @@ const ProductList = ({ initialProducts, sort }: Props) => {
     skip: page * limit,
     limit,
     sort,
+    isActive,
   });
 
   // ✅ Reset when sort changes
   useEffect(() => {
     setAllProducts(initialProducts);
     setPage(1);
-  }, [initialProducts, sort]);
+  }, [initialProducts, sort, isActive]);
 
   // ✅ Append new products
   useEffect(() => {
@@ -58,7 +60,7 @@ const ProductList = ({ initialProducts, sort }: Props) => {
   }, [isFetching]);
 
   return (
-    <main className="container mx-auto">
+    <>
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {allProducts.map((p) => (
           <ProductCard key={p.uid} product={p} />
@@ -70,7 +72,7 @@ const ProductList = ({ initialProducts, sort }: Props) => {
 
       {/* Trigger */}
       <div ref={loadMoreRef} className="h-10" />
-    </main>
+    </>
   );
 };
 

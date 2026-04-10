@@ -12,14 +12,15 @@ export const productApi = baseApi.injectEndpoints({
         uid?: string;
         posItemCode?: string;
         sort?: ProductStockSort;
+        isActive: boolean;
       }
     >({
-      query: ({ skip, limit, uid, posItemCode, sort }) => ({
+      query: ({ skip, limit, uid, posItemCode, sort, isActive }) => ({
         url: "/",
         method: "POST",
         body: {
           query: GET_PRODUCTS,
-          variables: { skip, limit, uid, posItemCode, sort },
+          variables: { skip, limit, uid, posItemCode, sort, isActive },
         },
       }),
 

@@ -43,15 +43,19 @@ export default async function ProductsPage({
 
     return (
       <>
-        <div className="flex sm:justify-between max-sm:flex-col gap-2">
-          <p>
+        <div className="flex sm:items-center sm:justify-between max-sm:flex-col gap-2 mb-5">
+          <p className="grow">
             <b>{count}</b> items found
           </p>
 
           <ProductFilter />
         </div>
 
-        <ProductList initialProducts={products} sort={sort} />
+        <ProductList
+          initialProducts={products}
+          sort={sort}
+          isActive={isActive}
+        />
       </>
     );
   } catch (error) {

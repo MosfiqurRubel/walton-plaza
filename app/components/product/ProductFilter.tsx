@@ -29,12 +29,14 @@ const ProductFilter = () => {
   ];
 
   return (
-    <Select
-      options={sortOptions}
-      value={currentSort}
-      onChange={handleSortChange}
-      className="border p-2 rounded"
-    />
+    <div className="flex gap-3 flex-wrap">
+      <Select
+        options={sortOptions}
+        value={currentSort}
+        onChange={handleSortChange}
+        className="bg-white border border-gray-300 p-2 rounded"
+      />
+    </div>
   );
 };
 
