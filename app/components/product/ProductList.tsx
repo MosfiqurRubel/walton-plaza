@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useGetProductsQuery } from "@/app/store/services/productApi";
 import { Product, ProductStockSort } from "@/app/types/product";
-import ProductCard from "./ProductCard";
+import ProductCard from "@/app/components/product/ProductCard";
+import Loading from "@/app/components/ui/loading";
 
 type Props = {
   initialProducts: Product[];
@@ -28,7 +29,7 @@ const ProductList = ({
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   // ✅ RTK Query (next pages)
-  const { data, isFetching } = useGetProductsQuery({
+  const { data, isFetching, isError } = useGetProductsQuery({
     skip: page * limit,
     limit,
     sort,
@@ -70,19 +71,19 @@ const ProductList = ({
   }, [isFetching]);
 
   return (
-    <>
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grow">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {allProducts.map((p) => (
           <ProductCard key={p.uid} product={p} />
         ))}
       </div>
 
       {/* Loader */}
-      {isFetching && <p className="text-center mt-4">Loading...</p>}
+      {isFetching && <Loading />}
 
       {/* Trigger */}
       <div ref={loadMoreRef} className="h-10" />
-    </>
+    </div>
   );
 };
 

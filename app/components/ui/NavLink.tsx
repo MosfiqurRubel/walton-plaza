@@ -18,9 +18,7 @@ export default function NavLink({
       href={href}
       className={clsx(
         "relative transition-colors",
-        pathname === href
-          ? "text-blue-600 font-semibold"
-          : "hover:text-blue-600",
+        pathname === href ? "text-sky-700" : "hover:text-sky-900",
       )}
     >
       {children}

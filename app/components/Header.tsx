@@ -32,7 +32,7 @@ export default function Header() {
         {/* Logo */}
         <h1
           className={clsx(
-            "font-bold text-blue-600 transition-all",
+            "font-bold text-sky-900 transition-all",
             scrolled ? "text-lg" : "text-2xl",
           )}
         >

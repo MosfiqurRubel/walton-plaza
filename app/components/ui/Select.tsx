@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import clsx from "clsx";
 
 type Option = {
   label: string;
@@ -21,7 +22,7 @@ const Select: React.FC<SelectProps> = ({
   name = "",
   options,
   value,
-  placeholder = "Select",
+  // placeholder = "Select",
   disabled = false,
   onChange,
   className = "",
@@ -32,11 +33,14 @@ const Select: React.FC<SelectProps> = ({
       value={value ?? ""}
       disabled={disabled}
       onChange={(e) => onChange?.(e.target.value)}
-      className={`border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+      className={clsx(
+        "px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+        className,
+      )}
     >
-      <option value="" disabled>
+      {/* <option value="" disabled>
         {placeholder}
-      </option>
+      </option> */}
 
       {options.map((opt) => (
         <option key={opt.value} value={opt.value}>

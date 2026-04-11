@@ -3,6 +3,9 @@ import { GET_PRODUCTS } from "@/app/lib/graphql/queries";
 import ProductList from "@/app/components/product/ProductList";
 import ProductFilter from "@/app/components/product/ProductFilter";
 import { ProductStockSort } from "@/app/types/product";
+import ProductSidebar from "@/app/components/ProductSidebar";
+import { FileText } from "lucide-react";
+import Heading from "../components/ui/Heading";
 
 type ProductsPageProps = {
   searchParams: Promise<{
@@ -29,6 +32,7 @@ export default async function ProductsPage({
       sort,
       filter: {
         isActive: true,
+        // posItemCode: "25311",
         categoryUid: category || undefined,
         priceFilterOption: {
           min,
@@ -46,20 +50,24 @@ export default async function ProductsPage({
     return (
       <>
         <div className="flex sm:items-center sm:justify-between max-sm:flex-col gap-2 mb-5">
-          <p className="grow">
+          <Heading as="p" className="grow flex items-center gap-1">
+            <FileText size={20} />
             <b>{count}</b> items found
-          </p>
+          </Heading>
 
           <ProductFilter />
         </div>
 
-        <ProductList
-          initialProducts={products}
-          sort={sort}
-          category={category}
-          minPrice={min}
-          maxPrice={max}
-        />
+        <div className="flex max-xl:flex-col gap-6">
+          <ProductSidebar />
+          <ProductList
+            initialProducts={products}
+            sort={sort}
+            category={category}
+            minPrice={min}
+            maxPrice={max}
+          />
+        </div>
       </>
     );
   } catch (error) {

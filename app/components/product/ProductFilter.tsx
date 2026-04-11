@@ -1,10 +1,12 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ProductStockSort } from "@/app/types/product";
 import Input from "@/app/components/ui/Input";
+import Heading from "@/app/components/ui/Heading";
 import Select from "@/app/components/ui/Select";
-import { useEffect, useState } from "react";
+import { ArrowUpWideNarrow } from "lucide-react";
 
 const ProductFilter = () => {
   const router = useRouter();
@@ -34,29 +36,36 @@ const ProductFilter = () => {
     { value: ProductStockSort.PRICE_HIGH_TO_LOW, label: "High to Low" },
   ];
 
-  const categoryOptions = [{ value: "C-L9Z525", label: "Smartphone" }];
+  // const categoryOptions = [{ value: "C-L9Z525", label: "Smartphone" }];
 
   return (
     <div className="flex gap-3 flex-wrap">
       {/* Sort */}
-      <Select
-        name="sort"
-        options={sortOptions}
-        value={searchParams.get("sort") || ""}
-        onChange={(val) => updateParam("sort", val)}
-      />
+      <div className="flex-center space-x-2">
+        <div className="flex-center gap-0.5">
+          <ArrowUpWideNarrow size={20} />
+          <Heading as="h5" className="capitalize" children="Sort" />
+        </div>
+        <Select
+          name="sort"
+          options={sortOptions}
+          // placeholder="Sort"
+          value={searchParams.get("sort") || ""}
+          onChange={(val) => updateParam("sort", val)}
+        />
+      </div>
 
       {/* Category */}
-      <Select
+      {/* <Select
         name="category"
         options={categoryOptions}
         value={searchParams.get("category") || ""}
         placeholder="Category"
         onChange={(val) => updateParam("category", val)}
-      />
+      /> */}
 
-      {/* Min Price */}
-      <Input
+      {/* Min & Max Price */}
+      {/* <Input
         name="min"
         type="number"
         placeholder="Min"
@@ -66,7 +75,7 @@ const ProductFilter = () => {
         className="w-24"
       />
 
-      {/* Max Price */}
+      
       <Input
         name="max"
         type="number"
@@ -75,7 +84,7 @@ const ProductFilter = () => {
         onChange={setMax}
         onBlur={() => updateParam("max", max)}
         className="w-24"
-      />
+      /> */}
     </div>
   );
 };

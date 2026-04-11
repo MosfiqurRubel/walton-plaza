@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import PriceDisplay from "@/app/components/product/PriceDisplay";
 import StockCTA from "@/app/components/product/StockCTA";
 import VariantSelector from "@/app/components/VariantSelector";
+// import { notFound } from "next/navigation";
 // import ImageGallery from "@/app/components/ImageGallery";
 
 export default async function ProductDetails({
@@ -17,6 +18,8 @@ export default async function ProductDetails({
   const data = await serverFetch(GET_PRODUCT, {
     uid: slug,
   });
+
+  // if (!data) notFound();
 
   const product = data?.getProducts?.result?.products?.[0];
   const variant = product.variants?.[0];

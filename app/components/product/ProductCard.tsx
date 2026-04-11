@@ -1,10 +1,11 @@
 "use client";
 
 import { useDispatch } from "react-redux";
-import { addToCart } from "@/app/store/slices/cartSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { splitName } from "@/app/utils/helper";
+import { addToCart } from "@/app/store/slices/cartSlice";
+import DiscountBadge from "@/app/components/ui/DiscountBadge";
 
 export default function ProductCard({ product }: any) {
   const dispatch = useDispatch();
@@ -22,17 +23,21 @@ export default function ProductCard({ product }: any) {
       ? `${variant.discount?.amount}% OFF`
       : `Save ৳${variant.discount?.amount}`;
 
+  // const DiscountBadge = dynamic(
+  //   () => import("@/app/components/ui/DiscountBadge"),
+  // );
+
   return (
-    <div className="product-card">
+    <div className="product-card relative group">
+      {variant.discount?.percentage === 0 && (
+        <DiscountBadge value={3} className="absolute! -top-1 left-2.5 z-10 " />
+      )}
       <Link href={`/products/${product.uid}`} className="block group">
         <div className="relative w-full aspect-4/3 overflow-hidden rounded-t-md">
           <Image
             src={product.images?.[0]?.url || "/placeholder.png"}
             alt={product.enName || "product"}
             fill
-            sizes="(max-width: 640px) 100vw,
-                 (max-width: 1024px) 50vw,
-                 25vw"
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -71,7 +76,7 @@ export default function ProductCard({ product }: any) {
         <button
           onClick={() => dispatch(addToCart(product))}
           disabled={variant?.quantity === 0}
-          className={`mt-3 w-full rounded-md py-2 text-sm font-medium transition-all ${
+          className={`mt-3 w-full rounded-md py-2 text-sm font-medium transition-all group-hover:bg-sky-700 ${
             variant?.quantity === 0
               ? "bg-gray-300 text-gray-600 cursor-not-allowed"
               : "bg-sky-900 text-white cursor-pointer hover:bg-sky-700"

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/app/providers";
 import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,23 +26,9 @@ export default function RootLayout({
         <Providers>
           <Header />
 
-          <main className="grow container mx-auto px-6 py-8">{children}</main>
+          <main className="grow container mx-auto p-6">{children}</main>
 
-          <footer className="bg-gray-800 text-white">
-            <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-              <p>
-                &copy; {new Date().getFullYear()} MyShop. All rights reserved.
-              </p>
-              <nav className="space-x-4">
-                <a href="/privacy" className="hover:underline">
-                  Privacy
-                </a>
-                <a href="/terms" className="hover:underline">
-                  Terms
-                </a>
-              </nav>
-            </div>
-          </footer>
+          <Footer />
         </Providers>
       </body>
     </html>
