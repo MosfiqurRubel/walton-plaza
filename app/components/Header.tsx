@@ -6,6 +6,7 @@ import NavLink from "@/app/components/ui/NavLink";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import Button from "./ui/Button";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -36,12 +37,12 @@ export default function Header() {
             scrolled ? "text-lg" : "text-2xl",
           )}
         >
-          <NavLink href="/products">MyShop</NavLink>
+          <NavLink href="/home">MyShop</NavLink>
         </h1>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
-          <NavLink href="/">Home</NavLink>
+          <NavLink href="/home">Home</NavLink>
           <NavLink href="/products">Products</NavLink>
           <NavLink href="/about">About</NavLink>
 
@@ -58,9 +59,12 @@ export default function Header() {
         </nav>
 
         {/* Mobile Button */}
-        <button className="md:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X /> : <Menu />}
-        </button>
+        <Button
+          className="md:hidden"
+          onClick={() => setOpen(!open)}
+          icon={open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          override
+        />
       </div>
 
       {/* Mobile Menu */}

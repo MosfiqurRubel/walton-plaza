@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Select from "@/app/components/ui/Select";
 import Input from "@/app/components/ui/Input";
 import Heading from "@/app/components/ui/Heading";
+import Button from "@/app/components/ui/Button";
 
 const categories = [
   "Electronics",
@@ -133,17 +134,17 @@ export default function ProductSidebar() {
           </p>
         </div>
 
-        {/* Apply Button */}
-        <button
+        <Button
           onClick={() =>
             alert(
               `Applied Filters:\nCategory: ${selectedCategory}\nPrice: ${priceRange}\nIn Stock: ${inStockOnly}`,
             )
           }
-          className="w-full bg-sky-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-        >
-          Apply Filters
-        </button>
+          label="Apply Filters"
+          variant="primary"
+          size="medium"
+          className="w-full cursor-pointer"
+        />
       </div>
     </aside>
   );

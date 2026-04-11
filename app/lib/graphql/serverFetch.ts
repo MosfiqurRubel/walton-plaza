@@ -14,6 +14,7 @@ export async function serverFetch(query: string, variables = {}) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ query, variables }),
+    // cache: "no-store",
     next: { revalidate: 60 },
   });
 

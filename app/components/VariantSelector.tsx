@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import clsx from "clsx";
+import Heading from "@/app/components/ui/Heading";
 
 type VariantSelectorProps = {
   variants: string[];
@@ -19,8 +20,8 @@ const VariantSelector: React.FC<VariantSelectorProps> = ({
   };
 
   return (
-    <div className="mt-4">
-      <h3 className="font-semibold mb-2">Select Variant:</h3>
+    <div className="space-y-2">
+      <Heading as="h4" className="capitalize" children="Select Variant:" />
       <div className="flex gap-3 flex-wrap">
         {variants.map((variant) => (
           <button
@@ -38,7 +39,13 @@ const VariantSelector: React.FC<VariantSelectorProps> = ({
         ))}
       </div>
       {selected && (
-        <p className="mt-3 text-green-600 font-medium">Selected: {selected}</p>
+        <Heading
+          as="p"
+          className="mt-3"
+          variant="success"
+          weight="font-medium"
+          children={`Selected: ${selected}`}
+        />
       )}
     </div>
   );
