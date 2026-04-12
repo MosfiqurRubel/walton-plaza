@@ -18,11 +18,6 @@ export const GET_PRODUCTS = `
                     isDiscountPercentageShowable
                     vatPercentage
                     isFavorite
-                    
-                    fair {
-                        offer
-                        displayText
-                    }
 
                     category {
                         uid
@@ -124,6 +119,11 @@ export const GET_PRODUCT = `
                 }
             }
             
+            
+            inventoryStockUid
+            isStockAvilable
+            isDiscountPercentageShowable
+            vatPercentage
             isFavorite
           }
         }

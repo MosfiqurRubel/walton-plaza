@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
+import Icon from "@/public/icons-favorites.webp";
 
 type DiscountBadgeProps = {
   value: number;
@@ -8,7 +9,7 @@ type DiscountBadgeProps = {
 };
 
 const DiscountBadge: React.FC<DiscountBadgeProps> = ({ value, className }) => {
-  const Icon = "/icons-favorites.webp";
+  // const Icon = "/icons-favorites.webp";
   return (
     <div className={clsx("w-14 h-13.5 relative overflow-hidden", className)}>
       <Image

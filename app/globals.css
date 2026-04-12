@@ -44,7 +44,7 @@ body {
 
 @layer components {
   .product-card {
-    @apply bg-white rounded-2xl shadow-md p-4 space-y-6 hover:shadow-xl transition-all duration-300 flex flex-col justify-between;
+    @apply bg-white rounded-2xl shadow-md p-4 space-y-2 hover:shadow-xl transition-all duration-300 flex flex-col justify-between;
   }
 
   .product-title {
@@ -52,6 +52,6 @@ body {
   }
 
   .product-price {
-    @apply text-sky-950 font-bold text-sm;
+    @apply text-sky-950 font-bold text-xs;
   }
 }
