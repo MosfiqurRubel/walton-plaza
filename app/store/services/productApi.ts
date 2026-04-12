@@ -1,70 +1,87 @@
-import { baseApi } from "@/app/store/services/baseApi";
 import { Product, ProductStockSort } from "@/app/types/product";
 import { GET_PRODUCT, GET_PRODUCTS } from "@/app/lib/graphql/queries";
+import { baseApi } from "@/app/store/services/baseApi";
+
+type GetProductsArgs = {
+  skip: number;
+  limit: number;
+  sort?: ProductStockSort;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+};
+
+type GetProductsResponse = {
+  products: Product[];
+  count: number;
+};
 
 export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<
-      Product[],
-      {
-        skip: number;
-        limit: number;
-        sort?: ProductStockSort;
-        category?: string;
-        minPrice?: number;
-        maxPrice?: number;
-      }
-    >({
+    getProducts: builder.query<GetProductsResponse, GetProductsArgs>({
       query: ({ skip, limit, sort, category, minPrice, maxPrice }) => ({
         url: "/",
         method: "POST",
         body: {
           query: GET_PRODUCTS,
           variables: {
-            skip,
-            limit,
             sort,
+            pagination: {
+              skip,
+              limit,
+            },
             filter: {
               isActive: true,
               categoryUid: category || undefined,
+              filterOptions: [],
               priceFilterOption: {
                 min: minPrice || 0,
                 max: maxPrice || 0,
               },
-              filterOptions: [],
             },
           },
         },
       }),
 
-      transformResponse: (response: any) =>
-        response?.data?.getProducts?.result?.products ?? [],
+      transformResponse: (response: any) => ({
+        products: response?.data?.getProducts?.result?.products || [],
+        count: response?.data?.getProducts?.result?.count || 0,
+      }),
 
-      serializeQueryArgs: ({ queryArgs }) => {
-        return queryArgs;
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {
+        return {
+          endpointName,
+          sort: queryArgs.sort,
+          category: queryArgs.category,
+          minPrice: queryArgs.minPrice,
+          maxPrice: queryArgs.maxPrice,
+        };
       },
 
       merge: (currentCache, newItems, { arg }) => {
         if (arg.skip === 0) {
-          return newItems; // filter change → reset
+          currentCache.products = newItems.products;
+        } else {
+          const ids = new Set(currentCache.products.map((p) => p.uid));
+
+          const uniqueProducts = newItems.products.filter(
+            (p) => !ids.has(p.uid),
+          );
+
+          currentCache.products.push(...uniqueProducts);
         }
-        currentCache.push(...newItems);
+
+        currentCache.count = newItems.count;
       },
 
       forceRefetch({ currentArg, previousArg }) {
-        return currentArg?.skip !== previousArg?.skip;
+        return (
+          currentArg?.sort !== previousArg?.sort ||
+          currentArg?.category !== previousArg?.category ||
+          currentArg?.minPrice !== previousArg?.minPrice ||
+          currentArg?.maxPrice !== previousArg?.maxPrice
+        );
       },
-
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ uid }) => ({
-                type: "Product" as const,
-                id: uid,
-              })),
-              { type: "Products", id: "LIST" },
-            ]
-          : [{ type: "Products", id: "LIST" }],
     }),
 
     getProduct: builder.query<Product, { uid: string }>({

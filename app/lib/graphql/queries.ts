@@ -1,32 +1,46 @@
 export const GET_PRODUCTS = `
-    query (
-        $skip: Int!
-        $limit: Int!
-        $sort: ProductStockSort
-        $filter: ProductFilterInput
-    ) {
-        getProducts(
-                filter: $filter
-                pagination: { skip: $skip, limit: $limit }
-                sort: $sort
-            ) {
-            message
+    query ($filter: ProductFilterInput, $pagination: PaginationInput, $sort: ProductStockSort) {
+         getProducts(filter: $filter, pagination: $pagination, sort: $sort) {
+            message            
             statusCode
+            
             result {
                 count
+
                 products {
                     uid
+                    isActive
                     enName
-                    images {                
-                        url
+                    bnName
+                    slug
+                    inventoryStockUid
+                    isStockAvilable
+                    isDiscountPercentageShowable
+                    vatPercentage
+                    isFavorite
+                    
+                    fair {
+                        offer
+                        displayText
                     }
 
-                    productAttributes {     
+                    category {
+                        uid
+                        enName
+                    }
+
+                    images {
+                        url
+                        signedUrl
+                        name
+                    }
+                    
+                    productAttributes {
                         enLabel
                         values { enName }
                     }
 
-                    detailedDescriptions {  
+                    detailedDescriptions {
                         enLabel
                         values { enName }
                     }
@@ -46,18 +60,35 @@ export const GET_PRODUCTS = `
                         values { enName }
                     }
 
-                    variants {              
+                    variants {
                         mrpPrice
                         ebsItemCode
                         posItemCode
                         quantity
+                        isAvailable
+
                         discount {
                             amount
-                            value
                             type
+                            value
                             percentage
-                        }
+                            applicableFor
+                            isApplicableForShoppingCart                            
+                        }                        
                     }
+                }
+
+                filterOptions {
+                    key
+                    values {
+                        bnName
+                        enName
+                    }
+                }
+
+                priceFilterOption {
+                    max
+                    min
                 }
             }
         }
@@ -79,16 +110,21 @@ export const GET_PRODUCT = `
             images {
               url
             }
-            variants {
-              mrpPrice
-              quantity
-              discount {
-                amount
-                value
-                type
-                percentage
-              }
+            variants {    
+                isAvailable          
+                mrpPrice
+                ebsItemCode
+                posItemCode
+                quantity
+                discount {
+                    amount
+                    value
+                    type
+                    percentage
+                }
             }
+            
+            isFavorite
           }
         }
       }

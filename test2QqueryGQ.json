@@ -1,0 +1,100 @@
+export const GET_PRODUCTS = `
+    query GetProducts($filter: ProductFilterInput, $pagination: PaginationInput, $sort: ProductStockSort) {
+    getProducts(filter: $filter, pagination: $pagination, sort: $sort) {
+        message
+        result {
+        count
+        products {
+            bnName
+            slug
+            inventoryStockUid
+            isStockAvilable
+            isFairEnable
+            isDiscountPercentageShowable
+            vatPercentage
+            fair {
+            offer
+            displayText
+            __typename
+            }
+            category {
+            uid
+            enName
+            __typename
+            }
+            enName
+            images {
+            url
+            signedUrl
+            name
+            __typename
+            }
+            isActive
+            uid
+            variants {
+            mrpPrice
+            previousPrice
+            isAvailable
+            discount {
+                amount
+                type
+                value
+                percentage
+                applicableFor
+                isApplicableForShoppingCart
+                __typename
+            }
+            __typename
+            }
+            isFavorite
+            deliveryDiscount {
+            discountType
+            amount
+            value
+            __typename
+            }
+            __typename
+        }
+        filterOptions {
+            key
+            values {
+            bnName
+            enName
+            __typename
+            }
+            __typename
+        }
+        breadcrumbs {
+            bnName
+            enName
+            type
+            uid
+            __typename
+        }
+        priceFilterOption {
+            max
+            min
+            __typename
+        }
+        activePromocode
+        __typename
+        }
+        statusCode
+        __typename
+    }
+    }
+`
+
+`variables: {
+    "filter": {
+        "filterOptions": [],
+        "priceFilterOption": {},
+        "isActive": true,
+        "categoryUid": "C-BGZPWG"
+    },
+    "sort": "NONE",
+    "pagination": {
+        "limit": 21,
+        "skip": 0
+    }
+}`

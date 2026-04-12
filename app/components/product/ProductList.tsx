@@ -8,6 +8,7 @@ import Loading from "@/app/components/ui/loading";
 
 type Props = {
   initialProducts: Product[];
+  totalCount: number;
   sort: ProductStockSort;
   category?: string;
   minPrice?: number;
@@ -16,59 +17,73 @@ type Props = {
 
 const ProductList = ({
   initialProducts,
+  totalCount,
   sort,
   category,
   minPrice,
   maxPrice,
 }: Props) => {
-  const [page, setPage] = useState(1);
   const limit = 10;
+
+  const [page, setPage] = useState(1);
 
   const [allProducts, setAllProducts] = useState<Product[]>(initialProducts);
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  // ✅ RTK Query (next pages)
-  const { data, isFetching, isError } = useGetProductsQuery({
-    skip: page * limit,
-    limit,
-    sort,
-    category,
-    minPrice,
-    maxPrice,
-  });
+  const hasMore = allProducts.length < totalCount;
 
-  // ✅ Reset when sort changes
+  const { data, isFetching, isError } = useGetProductsQuery(
+    {
+      skip: page * limit,
+      limit,
+      sort,
+      category,
+      minPrice,
+      maxPrice,
+    },
+    {
+      skip: !hasMore,
+    },
+  );
+
+  const products = data?.products || [];
+
+  // Reset products when filters change
   useEffect(() => {
     setAllProducts(initialProducts);
     setPage(1);
-  }, [initialProducts, sort, category, minPrice, maxPrice]);
+  }, [initialProducts]);
 
-  // ✅ Append new products
+  // Append new products
   useEffect(() => {
-    if (data?.length) {
+    if (products.length) {
       setAllProducts((prev) => {
         const ids = new Set(prev.map((p) => p.uid));
-        const newItems = data.filter((p: Product) => !ids.has(p.uid));
+
+        const newItems = products.filter((p: Product) => !ids.has(p.uid));
+
         return [...prev, ...newItems];
       });
     }
-  }, [data]);
+  }, [products]);
 
-  // ✅ Infinite Scroll Observer
+  // Infinite scroll
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !isFetching) {
+      if (entries[0].isIntersecting && !isFetching && hasMore) {
         setPage((prev) => prev + 1);
       }
     });
 
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
+    const node = loadMoreRef.current;
 
-    return () => observer.disconnect();
-  }, [isFetching]);
+    if (node) observer.observe(node);
+
+    return () => {
+      if (node) observer.unobserve(node);
+    };
+  }, [isFetching, hasMore]);
 
   return (
     <div className="grow">
@@ -78,40 +93,17 @@ const ProductList = ({
         ))}
       </div>
 
-      {/* Loader */}
       {isFetching && <Loading />}
 
-      {/* Trigger */}
-      <div ref={loadMoreRef} className="h-10" />
+      {isError && (
+        <p className="text-center text-red-500 mt-4">
+          Failed to load more products
+        </p>
+      )}
+
+      {hasMore && <div ref={loadMoreRef} className="h-10" />}
     </div>
   );
 };
 
 export default ProductList;
-
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { Product } from "@/app/types/product";
-// import ProductCard from "./ProductCard";
-
-// const ProductList = ({ initialProducts }: any) => {
-//   const [allProducts, setAllProducts] = useState(initialProducts);
-
-//   // ✅ FIX: update when server data changes
-//   useEffect(() => {
-//     setAllProducts(initialProducts);
-//   }, [initialProducts]);
-
-//   return (
-//     <main className="container mx-auto">
-//       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-//         {allProducts?.map((p: Product) => (
-//           <ProductCard key={p.uid} product={p} />
-//         ))}
-//       </div>
-//     </main>
-//   );
-// };
-
-// export default ProductList;
