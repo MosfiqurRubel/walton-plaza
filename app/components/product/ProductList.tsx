@@ -25,7 +25,7 @@ const ProductList = ({
 }: Props) => {
   const limit = 10;
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const [allProducts, setAllProducts] = useState<Product[]>(initialProducts);
 
