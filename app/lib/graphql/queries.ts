@@ -12,8 +12,6 @@ export const GET_PRODUCTS = `
                     isActive
                     enName
                     bnName
-                    slug
-                    inventoryStockUid
                     isStockAvilable
                     isDiscountPercentageShowable
                     vatPercentage
@@ -67,7 +65,6 @@ export const GET_PRODUCTS = `
                             type
                             value
                             percentage
-                            applicableFor
                             isApplicableForShoppingCart                            
                         }                        
                     }
@@ -84,7 +81,7 @@ export const GET_PRODUCTS = `
                 priceFilterOption {
                     max
                     min
-                }
+                }                
             }
         }
     }

@@ -1,32 +1,23 @@
 "use client";
-import React, { useState } from "react";
+
 import { useRouter, useSearchParams } from "next/navigation";
-import Select from "@/app/components/ui/Select";
 import Input from "@/app/components/ui/Input";
 import Heading from "@/app/components/ui/Heading";
-import Button from "@/app/components/ui/Button";
 
-const categories = [
-  "Electronics",
-  "Fashion",
-  "Home Appliances",
-  "Books",
-  "Sports",
-];
+type ProductSidebarProps = {
+  filterOptions: any[];
+  priceFilterOption: {
+    min: number;
+    max: number;
+  };
+};
 
-export default function ProductSidebar() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [priceRange, setPriceRange] = useState<number>(50000);
-  const [inStockOnly, setInStockOnly] = useState<boolean>(false);
-
+export default function ProductSidebar({
+  filterOptions,
+  priceFilterOption,
+}: ProductSidebarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  // ✅ LOCAL STATE (IMPORTANT)
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
-
-  const categoryOptions = [{ value: "C-L9Z525", label: "Smartphone" }];
 
   const updateParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -34,117 +25,85 @@ export default function ProductSidebar() {
     if (value) params.set(key, value);
     else params.delete(key);
 
-    router.push(`?${params.toString()}`, { scroll: false });
+    router.push(`/products?${params.toString()}`);
   };
 
   return (
     <aside className="xl:flex-none xl:w-74 bg-white shadow-md rounded-md p-5">
       <div className="space-y-6">
-        {/* Title */}
-        <h2 className="text-xl font-bold text-gray-800">Filters</h2>
-
         <div className="space-y-2">
-          <Heading as="h4" className="capitalize" children="Shop by category" />
-          <Select
-            className="w-full"
-            name="category"
-            options={categoryOptions}
-            value={searchParams.get("category") || ""}
-            placeholder="Category"
-            onChange={(val) => updateParam("category", val)}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Heading as="h4" className="capitalize" children="price" />
+          <Heading as="h4" className="capitalize" children="Price" />
 
           <div className="flex gap-4 justify-between">
-            {/* Min Price */}
             <Input
               name="min"
               type="number"
               placeholder="Min"
-              value={min}
-              onChange={setMin}
-              onBlur={() => updateParam("min", min)}
-              className="w-full"
+              defaultValue={searchParams.get("min") || ""}
+              onBlur={(e) => updateParam("min", e)}
+              className="border rounded px-3 py-2 w-full"
             />
 
-            {/* Max Price */}
             <Input
-              name="max"
+              name="Max"
               type="number"
               placeholder="Max"
-              value={max}
-              onChange={setMax}
-              onBlur={() => updateParam("max", max)}
-              className="w-full"
+              defaultValue={searchParams.get("max") || ""}
+              onBlur={(e) => updateParam("max", e)}
+              className="border rounded px-3 py-2 w-full"
             />
           </div>
+
+          <Heading
+            as="p"
+            override
+            className="text-sm text-gray-500 mt-2"
+            children={`৳${priceFilterOption.min} - ৳${priceFilterOption.max}`}
+          />
         </div>
 
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            id="inStock"
-            checked={inStockOnly}
-            onChange={(e) => setInStockOnly(e.target.checked)}
-            className="accent-sky-600"
-          />
-          <label htmlFor="inStock" className="text-gray-700">
-            In Stock Only
+        {filterOptions.map((filter) => (
+          <div className="space-y-2" key={filter.key}>
+            <Heading as="h4" className="capitalize" children={filter.key} />
+
+            <div className="space-y-2">
+              {filter.values.map((value: any) => {
+                const isChecked = searchParams.get(filter.key) === value.enName;
+
+                return (
+                  <label
+                    key={value.enName}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name={filter.key}
+                      checked={isChecked}
+                      onChange={() => updateParam(filter.key, value.enName)}
+                    />
+
+                    <span>{value.enName}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+
+        <div className="space-y-2">
+          <Heading as="h4" className="capitalize" children="Availability" />
+
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={searchParams.get("available") === "true"}
+              onChange={(e) =>
+                updateParam("available", e.target.checked ? "true" : "")
+              }
+            />
+            In Stock
           </label>
         </div>
-
-        {/* Category Filter */}
-        <div>
-          <h3 className="font-semibold mb-2">Category</h3>
-          <ul className="space-y-2">
-            {categories.map((cat) => (
-              <li key={cat}>
-                <button
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`w-full text-left px-3 py-2 rounded-md transition ${
-                    selectedCategory === cat
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 hover:bg-gray-200"
-                  }`}
-                >
-                  {cat}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Price Range */}
-        <div>
-          <h3 className="font-semibold mb-2">Price Range</h3>
-          <input
-            type="range"
-            min={0}
-            max={100000}
-            step={5000}
-            value={priceRange}
-            onChange={(e) => setPriceRange(Number(e.target.value))}
-            className="w-full accent-sky-600"
-          />
-          <p className="mt-2 text-gray-600">
-            Up to ৳{priceRange.toLocaleString()}
-          </p>
-        </div>
-
-        <Button
-          onClick={() =>
-            alert(
-              `Applied Filters:\nCategory: ${selectedCategory}\nPrice: ${priceRange}\nIn Stock: ${inStockOnly}`,
-            )
-          }
-          label="Apply Filters"
-          variant="primary"
-          size="medium"
-          className="w-full cursor-pointer"
-        />
       </div>
     </aside>
   );

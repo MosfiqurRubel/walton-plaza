@@ -13,6 +13,8 @@ type ProductsPageProps = {
     sort?: string;
     min?: string;
     max?: string;
+    available?: string;
+    [key: string]: string | undefined;
   }>;
 };
 
@@ -25,6 +27,15 @@ export default async function ProductsPage({
   const min = Number(params?.min || 0);
   const max = Number(params?.max || 0);
   const sort = (params?.sort as ProductStockSort) || ProductStockSort.NONE;
+
+  const graphQlFilterOptions = Object.entries(params)
+    .filter(
+      ([key]) => !["category", "sort", "min", "max", "available"].includes(key),
+    )
+    .map(([key, value]) => ({
+      key,
+      values: [value],
+    }));
 
   try {
     const data = await serverFetch(GET_PRODUCTS, {
@@ -50,7 +61,8 @@ export default async function ProductsPage({
       filter: {
         isActive: true,
         categoryUid: category || undefined,
-        filterOptions: [],
+        isStockAvailable: params.available === "true" ? true : undefined,
+        filterOptions: graphQlFilterOptions,
         priceFilterOption: {
           min,
           max,
@@ -60,6 +72,12 @@ export default async function ProductsPage({
 
     const products = data?.getProducts?.result?.products || [];
     const totalCount = data?.getProducts?.result?.count || 0;
+    const filterOptions = data?.getProducts?.result?.filterOptions || [];
+    const priceFilterOption =
+      data?.getProducts?.result?.priceFilterOption || {};
+
+    console.log(filterOptions, "filter options");
+    console.log(priceFilterOption, "priceFilterOption");
 
     // console.log("posItemCode", products?.variants[0].posItemCode);
 
@@ -75,7 +93,10 @@ export default async function ProductsPage({
         </div>
 
         <div className="flex max-xl:flex-col gap-6">
-          <ProductSidebar />
+          <ProductSidebar
+            filterOptions={filterOptions}
+            priceFilterOption={priceFilterOption}
+          />
           <ProductList
             initialProducts={products}
             totalCount={totalCount}

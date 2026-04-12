@@ -6,18 +6,16 @@ type InputProps = {
   name: string;
   type?: "text" | "number";
   placeholder?: string;
-  value?: string | number;
-  onChange?: (value: string) => void;
+  defaultValue?: string | number;
   onBlur?: (value: string) => void;
   className?: string;
 };
 
 const Input: React.FC<InputProps> = ({
-  name = "",
+  name,
   type = "text",
   placeholder,
-  value,
-  onChange,
+  defaultValue,
   onBlur,
   className = "",
 }) => {
@@ -25,11 +23,10 @@ const Input: React.FC<InputProps> = ({
     <input
       name={name}
       type={type}
-      value={value ?? ""}
+      defaultValue={defaultValue ?? ""}
       placeholder={placeholder}
-      onChange={(e) => onChange?.(e.target.value)}
       onBlur={(e) => onBlur?.(e.target.value)}
-      className={`border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+      className={`border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full ${className}`}
     />
   );
 };

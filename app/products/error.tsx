@@ -18,7 +18,6 @@ export default function ErrorPage({
 
   return (
     <div className="space-y-4">
-      <h2>Something went wrong!</h2>
       <Heading as="h4" children="Something went wrong!" />
       <Button
         onClick={

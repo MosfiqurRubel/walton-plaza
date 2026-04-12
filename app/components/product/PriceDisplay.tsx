@@ -25,6 +25,14 @@ const PriceDisplay = ({ mrpPrice, discount }: PriceDisplayProps) => {
 
   // // If type is 'percentage'
   // const discountedPrice = discount ? price - (price * discount) / 100 : price;
+
+  // sellingPrice = mrpPrice - discount.amount
+  // sellingPrice = mrpPrice - (mrpPrice × discount.amount / 100)
+
+  // sellingPrice = 45000 - (45000 × 15 / 100) = 45000 - 6750 = 38,250
+  // discount.value would be 38250
+  // You’d show: ৳38,250  (৳45,000 strikethrough)  15% OFF badge
+
   return (
     <div className="mt-4">
       <p className="text-xl font-bold text-green-600">
