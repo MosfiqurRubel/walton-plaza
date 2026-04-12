@@ -14,15 +14,21 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
           src={images?.[0]?.url}
           alt="Product Image"
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          placeholder="blur"
+          blurDataURL="/blur-placeholder.jpg"
           className="object-contain w-full h-full"
         />
       </div>
       <div className="flex gap-2 overflow-x-auto">
         {images?.slice(1).map((image, index) => (
-          <img
+          <Image
             key={index}
             src={image.url}
             alt={`Product Image ${index + 1}`}
+            sizes="80px"
+            placeholder="blur"
+            blurDataURL="/blur-placeholder.jpg"
             className="w-20 h-20 object-cover rounded-md cursor-pointer hover:ring-2 hover:ring-blue-500"
           />
         ))}

@@ -38,6 +38,9 @@ export default function ProductCard({ product }: any) {
             src={product.images?.[0]?.url || "/placeholder.png"}
             alt={product.enName || "product"}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            placeholder="blur"
+            blurDataURL="/blur-placeholder.jpg"
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>

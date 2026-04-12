@@ -13,7 +13,7 @@ const NotFound = () => {
           </span>
         </div>
         <Link
-          href="/"
+          href="/products"
           className="px-6 py-3 bg-sky-900 text-white cursor-pointer rounded-md shadow hover:bg-sky-700 transition"
         >
           Go back home

@@ -15,6 +15,7 @@ const DiscountBadge: React.FC<DiscountBadgeProps> = ({ value, className }) => {
         src={Icon}
         alt={`${value}% off badge`}
         fill
+        sizes="56px"
         className="w-full h-full object-contain"
       />
 

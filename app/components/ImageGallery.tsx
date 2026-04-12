@@ -17,26 +17,32 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
           src={selectedImage}
           alt="Selected product"
           fill
-          className="object-contain w-full h-full"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          placeholder="blur"
+          blurDataURL="/blur-placeholder.jpg"
+          className="object-contain"
         />
       </div>
 
-      <div className="flex gap-3">
+      {/* Thumbnails */}
+      <div className="flex gap-3 flex-wrap">
         {images.map((img, index) => (
           <button
             key={index}
+            type="button"
             onClick={() => setSelectedImage(img)}
-            className={`w-20 h-20 rounded-md overflow-hidden border-2 relative ${
-              selectedImage === img
-                ? "border-blue-500"
-                : "border-gray-300 cursor-pointer"
+            className={`relative w-20 h-20 rounded-md overflow-hidden border-2 ${
+              selectedImage === img ? "border-blue-500" : "border-gray-300"
             }`}
           >
             <Image
               src={img}
               alt={`Thumbnail ${index + 1}`}
               fill
-              className="w-full h-full object-contain"
+              sizes="80px"
+              placeholder="blur"
+              blurDataURL="/blur-placeholder.jpg"
+              className="object-contain"
             />
           </button>
         ))}

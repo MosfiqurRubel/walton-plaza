@@ -10,6 +10,8 @@ export const GET_PRODUCTS = `
                 pagination: { skip: $skip, limit: $limit }
                 sort: $sort
             ) {
+            message
+            statusCode
             result {
                 count
                 products {
@@ -68,6 +70,8 @@ export const GET_PRODUCT = `
         filter: { uid: $uid }
         pagination: { skip: 0, limit: 1 }
       ) {
+        message
+        statusCode
         result {
           products {
             uid
