@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import { shimmer, toBase64 } from "@/app/utils/helper";
 
 type ImageGalleryProps = {
   images: string[];
@@ -19,7 +20,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
           placeholder="blur"
-          blurDataURL="/blur-placeholder.jpg"
+          blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
           className="object-contain"
         />
       </div>
@@ -41,7 +42,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
               fill
               sizes="80px"
               placeholder="blur"
-              blurDataURL="/blur-placeholder.jpg"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
               className="object-contain"
             />
           </button>

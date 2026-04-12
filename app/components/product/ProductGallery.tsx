@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { shimmer, toBase64 } from "@/app/utils/helper";
 
 type ProductGalleryProps = {
   images: {
@@ -16,7 +17,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
           placeholder="blur"
-          blurDataURL="/blur-placeholder.jpg"
+          blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
           className="object-contain w-full h-full"
         />
       </div>
@@ -28,7 +29,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
             alt={`Product Image ${index + 1}`}
             sizes="80px"
             placeholder="blur"
-            blurDataURL="/blur-placeholder.jpg"
+            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
             className="w-20 h-20 object-cover rounded-md cursor-pointer hover:ring-2 hover:ring-blue-500"
           />
         ))}

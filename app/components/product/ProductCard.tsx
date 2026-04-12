@@ -6,6 +6,7 @@ import Link from "next/link";
 import { splitName } from "@/app/utils/helper";
 import { addToCart } from "@/app/store/slices/cartSlice";
 import DiscountBadge from "@/app/components/ui/DiscountBadge";
+import { shimmer, toBase64 } from "@/app/utils/helper";
 
 export default function ProductCard({ product }: any) {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ export default function ProductCard({ product }: any) {
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             placeholder="blur"
-            blurDataURL="/blur-placeholder.jpg"
+            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
