@@ -51,6 +51,13 @@ export default function Home() {
           >
             This paragraph adjusts size and alignment based on screen width.
           </Heading>
+
+          <Heading
+            as="p"
+            variant="danger"
+            className="font-medium"
+            children="No products found"
+          />
         </div>
       </div>
     </div>

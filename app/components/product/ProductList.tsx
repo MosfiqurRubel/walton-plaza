@@ -4,9 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { useGetProductsQuery } from "@/app/store/services/productApi";
 import { Product, ProductStockSort } from "@/app/types/product";
 import ProductCard from "@/app/components/product/ProductCard";
-import Loading from "@/app/components/ui/loading";
+import Heading from "@/app/components/ui/Heading";
+import Button from "@/app/components/ui/Button";
+import ProductGridSkeleton from "@/app/components/ui/skeleton/ProductGridSkeleton";
 
-type Props = {
+type ProductListProps = {
   initialProducts: Product[];
   totalCount: number;
   sort: ProductStockSort;
@@ -22,7 +24,7 @@ const ProductList = ({
   category,
   minPrice,
   maxPrice,
-}: Props) => {
+}: ProductListProps) => {
   const limit = 10;
 
   const [page, setPage] = useState(0);
@@ -33,7 +35,7 @@ const ProductList = ({
 
   const hasMore = allProducts.length < totalCount;
 
-  const { data, isFetching, isError } = useGetProductsQuery(
+  const { data, isFetching, isError, refetch } = useGetProductsQuery(
     {
       skip: page * limit,
       limit,
@@ -71,7 +73,7 @@ const ProductList = ({
   // Infinite scroll
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !isFetching && hasMore) {
+      if (entries[0].isIntersecting && !isFetching && hasMore && !isError) {
         setPage((prev) => prev + 1);
       }
     });
@@ -83,7 +85,22 @@ const ProductList = ({
     return () => {
       if (node) observer.unobserve(node);
     };
-  }, [isFetching, hasMore]);
+  }, [isFetching, hasMore, isError]);
+
+  // Empty state
+  if (!allProducts.length && !isFetching) {
+    return (
+      <div className="grow text-center py-20 space-y-2">
+        <Heading as="h3" children="No products found" />
+
+        <Heading
+          as="p"
+          className="text-gray-500"
+          children="Try changing your filters."
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="grow">
@@ -93,15 +110,31 @@ const ProductList = ({
         ))}
       </div>
 
-      {isFetching && <Loading />}
-
-      {isError && (
-        <p className="text-center text-red-500 mt-4">
-          Failed to load more products
-        </p>
+      {/* Loading more skeleton */}
+      {isFetching && (
+        <div className="mt-6">
+          <ProductGridSkeleton count={3} />
+        </div>
       )}
 
-      {hasMore && <div ref={loadMoreRef} className="h-10" />}
+      {/* Error */}
+      {isError && (
+        <div className="text-center mt-8">
+          <Heading as="p" variant="danger" children="Failed to load products" />
+
+          <button
+            onClick={() => refetch()}
+            className="mt-3 px-4 py-2 bg-black text-white rounded-md hover:opacity-90"
+          >
+            Retry
+          </button>
+
+          <Button variant="primary" label="Retry" onClick={() => refetch()} />
+        </div>
+      )}
+
+      {/* Scroll trigger */}
+      {hasMore && !isError && <div ref={loadMoreRef} className="h-10" />}
     </div>
   );
 };
