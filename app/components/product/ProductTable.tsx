@@ -53,8 +53,8 @@ const ProductTable: React.FC<Props> = ({ items }) => {
               <td className="border border-gray-300 px-3 py-2">
                 <div className="relative w-24 h-20">
                   <Image
-                    src={p.image || "/placeholder.png"}
-                    alt={p.name || "product"}
+                    src={p?.image || "/placeholder.png"}
+                    alt={p?.name || "product"}
                     fill
                     sizes="100px"
                     placeholder="blur"
@@ -69,20 +69,22 @@ const ProductTable: React.FC<Props> = ({ items }) => {
               <td className="border border-gray-300 px-3 py-2">
                 <div className="flex flex-col">
                   <span className="text-gray-600">
-                    {splitName(p.name).firstLine}
+                    {splitName(p?.name).firstLine}
                   </span>
-                  <span>{splitName(p.name).secondLine}</span>
+                  <span>{splitName(p?.name).secondLine}</span>
                 </div>
               </td>
 
               <td className="border border-gray-300 px-3 py-2">
-                ৳{p.price.toLocaleString()}
+                ৳{p?.price.toLocaleString()}
               </td>
 
-              <td className="border border-gray-300 px-3 py-2">{p.quantity}</td>
+              <td className="border border-gray-300 px-3 py-2">
+                {p?.quantity}
+              </td>
 
               <td className="border border-gray-300 px-3 py-2 font-semibold text-green-600">
-                ৳{(p.price * p.quantity).toLocaleString()}
+                ৳{(p?.price * p?.quantity).toLocaleString()}
               </td>
 
               <td className="border border-gray-300 px-3 py-2 text-center">

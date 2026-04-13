@@ -1,16 +1,16 @@
 "use client";
 
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/app/store/hooks";
 import Image from "next/image";
 import Link from "next/link";
 import { splitName } from "@/app/utils/helper";
 import { addToCart } from "@/app/store/slices/cartSlice";
 import DiscountBadge from "@/app/components/ui/DiscountBadge";
 import { shimmer, toBase64 } from "@/app/utils/helper";
-import Heading from "../ui/Heading";
+import Heading from "@/app/components/ui/Heading";
 
 export default function ProductCard({ product }: any) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const variant = product.variants?.[0];
   const hasDiscount = variant?.discount !== null;
@@ -82,11 +82,23 @@ export default function ProductCard({ product }: any) {
             </div>
           </div>
 
-          {/* Stock & CTA */}
           <button
-            onClick={() => dispatch(addToCart(product))}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              dispatch(
+                addToCart({
+                  uid: product.uid,
+                  name: product.enName,
+                  price: sellingPrice || variant?.mrpPrice || 0,
+                  image: product.images?.[0]?.url || "/placeholder.png",
+                  stock: variant?.quantity || 0,
+                }),
+              );
+            }}
             disabled={variant?.quantity === 0}
-            className={`mt-3 w-full rounded-md py-2 text-sm font-medium transition-all group-hover:bg-sky-700 ${
+            className={`mt-3 w-full rounded-md py-2 text-sm font-medium transition-all ${
               variant?.quantity === 0
                 ? "bg-gray-300 text-gray-600 cursor-not-allowed"
                 : "bg-sky-900 text-white cursor-pointer hover:bg-sky-700"
