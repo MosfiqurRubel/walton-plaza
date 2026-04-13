@@ -1,6 +1,6 @@
 "use client";
 
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/app/store/hooks";
 import { addToCart } from "@/app/store/slices/cartSlice";
 import dynamic from "next/dynamic";
 import { splitName } from "@/app/utils/helper";
@@ -20,7 +20,7 @@ export default function ProductDetailsClient({
 }: ProductDetailsClientProps) {
   const variant = product?.variants?.[0];
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleCart = () => {
     dispatch(
@@ -28,7 +28,7 @@ export default function ProductDetailsClient({
         uid: product.uid,
         name: product.enName,
         price: variant?.mrpPrice || 0,
-        image: product?.images?.[0],
+        image: product?.images?.[0]?.url || "/placeholder.png",
         stock: variant?.quantity,
       }),
     );
