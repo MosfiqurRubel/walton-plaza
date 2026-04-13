@@ -7,7 +7,6 @@ import { Menu, X } from "lucide-react";
 import Button from "./ui/Button";
 import CartCount from "./product/CartCount";
 import Link from "next/link";
-// import CartCount from "./CartCount";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -37,7 +36,7 @@ export default function Header() {
             scrolled ? "text-lg" : "text-2xl",
           )}
         >
-          <NavLink href="/home">MyShop</NavLink>
+          <NavLink href="/home">Walton Shop</NavLink>
         </h1>
 
         <nav className="hidden md:flex items-center gap-6">

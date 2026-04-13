@@ -39,20 +39,6 @@ export default async function ProductsPage({
 
   try {
     const data = await serverFetch(GET_PRODUCTS, {
-      // skip: 0,
-      // limit: 10,
-      // sort,
-      // filter: {
-      //   isActive: true,
-      //   // posItemCode: "25311",
-      //   categoryUid: category || undefined,
-      //   priceFilterOption: {
-      //     min,
-      //     max,
-      //   },
-      //   filterOptions: [],
-      // },
-
       sort,
       pagination: {
         skip: 0,
@@ -75,12 +61,6 @@ export default async function ProductsPage({
     const filterOptions = data?.getProducts?.result?.filterOptions || [];
     const priceFilterOption =
       data?.getProducts?.result?.priceFilterOption || {};
-
-    // console.log(filterOptions, "filter options");
-    // console.log(priceFilterOption, "priceFilterOption");
-    // console.log(availability, "availability");
-
-    // console.log("posItemCode", products);
 
     return (
       <>
