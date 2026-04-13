@@ -1,29 +1,29 @@
+"use client";
+
 import Button from "@/app/components/ui/Button";
 
 type StockCTAProps = {
-  inStock: boolean;
+  qty: number;
+  onClick: () => void;
 };
 
-const StockCTA = ({ inStock }: StockCTAProps) => {
-  return (
-    <>
-      {inStock ? (
-        <Button
-          label="Buy Now"
-          variant="primary"
-          size="medium"
-          className="w-full"
-        />
-      ) : (
-        <Button
-          disabled
-          label="Out of Stock"
-          variant="secondary"
-          size="medium"
-          className="w-full"
-        />
-      )}
-    </>
+const StockCTA = ({ qty, onClick }: StockCTAProps) => {
+  return qty > 0 ? (
+    <Button
+      onClick={onClick}
+      label="Buy Now"
+      variant="primary"
+      size="medium"
+      className="w-full"
+    />
+  ) : (
+    <Button
+      disabled
+      label="Out of Stock"
+      variant="secondary"
+      size="medium"
+      className="w-full"
+    />
   );
 };
 

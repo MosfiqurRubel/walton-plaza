@@ -19,10 +19,15 @@ type Props = {
   variant: Variant;
 };
 
-const PriceDisplay: React.FC<Props> = ({ variant }) => {
+const DiscountItem: React.FC<Props> = ({ variant }) => {
   const discount = variant?.discount;
   let price = discount?.amount;
 
+  const sellingPrice =
+    variant?.mrpPrice -
+    (variant?.mrpPrice * (variant?.discount?.percentage ?? 0)) / 100;
+
+  // If type is "flat":
   if (discount?.type === "FLAT") {
     price = variant?.mrpPrice - discount?.amount;
   } else if (discount?.type === "PERCENTAGE") {
@@ -33,32 +38,9 @@ const PriceDisplay: React.FC<Props> = ({ variant }) => {
     price = variant?.mrpPrice;
   }
 
-  const sellingPrice =
-    variant?.mrpPrice -
-    (variant?.mrpPrice * (variant?.discount?.percentage ?? 0)) / 100;
-
   return (
     <div className="flex gap-2">
-      <div className="grow space-y-2">
-        <span className="text-lg text-red-600 line-through">
-          MRP ৳ {variant?.mrpPrice?.toLocaleString()}
-        </span>
-
-        {discount && (
-          <div className="flex gap-1">
-            <span className="inline-block text-sm font-medium text-gray-500">
-              Save: ৳ {variant.discount?.amount}
-            </span>
-            <span className="inline-block text-sm font-bold text-green-500 uppercase">
-              ({variant.discount?.value}% off)
-            </span>
-          </div>
-        )}
-
-        <Heading as="p" className="capitalize">
-          Available In Selected Plaza
-        </Heading>
-      </div>
+      <div>{price}</div>
 
       <div className="shrink-0">
         <span className="product-price text-sm">
@@ -69,4 +51,4 @@ const PriceDisplay: React.FC<Props> = ({ variant }) => {
   );
 };
 
-export default PriceDisplay;
+export default DiscountItem;
