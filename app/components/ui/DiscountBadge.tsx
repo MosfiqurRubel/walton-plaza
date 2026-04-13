@@ -9,7 +9,6 @@ type DiscountBadgeProps = {
 };
 
 const DiscountBadge: React.FC<DiscountBadgeProps> = ({ value, className }) => {
-  // const Icon = "/icons-favorites.webp";
   return (
     <div className={clsx("w-14 h-13.5 relative overflow-hidden", className)}>
       <Image

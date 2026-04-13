@@ -11,7 +11,6 @@ import Heading from "../ui/Heading";
 
 export default function ProductCard({ product }: any) {
   const dispatch = useDispatch();
-  // console.log(product);
 
   const variant = product.variants?.[0];
   const hasDiscount = variant?.discount !== null;
@@ -26,14 +25,10 @@ export default function ProductCard({ product }: any) {
       ? `${variant.discount?.amount}% OFF`
       : `Save ৳${variant.discount?.amount}`;
 
-  // const DiscountBadge = dynamic(
-  //   () => import("@/app/components/ui/DiscountBadge"),
-  // );
-
   return (
     <div className="product-card relative group">
       <Link href={`/products/${product.uid}`} className="block group">
-        {variant.discount?.percentage === 0 && (
+        {variant.discount?.percentage !== 0 && (
           <DiscountBadge
             value={variant.discount?.percentage}
             className="absolute! -top-1 left-2.5 z-10 "

@@ -75,14 +75,12 @@ export default async function ProductsPage({
     const filterOptions = data?.getProducts?.result?.filterOptions || [];
     const priceFilterOption =
       data?.getProducts?.result?.priceFilterOption || {};
-    // const availability =
-    //   data?.getProducts?.result?.variants[0].isAvailable || false;
 
     // console.log(filterOptions, "filter options");
     // console.log(priceFilterOption, "priceFilterOption");
     // console.log(availability, "availability");
 
-    console.log("posItemCode", products);
+    // console.log("posItemCode", products);
 
     return (
       <>

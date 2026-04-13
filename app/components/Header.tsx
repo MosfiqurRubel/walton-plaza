@@ -3,20 +3,21 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import NavLink from "@/app/components/ui/NavLink";
-import { Menu, X, ShoppingCart } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { Menu, X } from "lucide-react";
 import Button from "./ui/Button";
+import CartCount from "./product/CartCount";
+import Link from "next/link";
+// import CartCount from "./CartCount";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
+
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -44,15 +45,9 @@ export default function Header() {
           <NavLink href="/products">Products</NavLink>
           <NavLink href="/about">About</NavLink>
 
-          <div className="relative">
-            <ShoppingCart className="w-6 h-6 cursor-pointer" />
-
-            {cartItems.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
-                {cartItems.length}
-              </span>
-            )}
-          </div>
+          <Link href="/cart">
+            <CartCount />
+          </Link>
         </nav>
 
         <Button
@@ -70,9 +65,13 @@ export default function Header() {
         )}
       >
         <div className="px-6 pb-4 flex flex-col items-center gap-4">
-          <NavLink href="/">Home</NavLink>
+          <NavLink href="/home">Home</NavLink>
           <NavLink href="/products">Products</NavLink>
           <NavLink href="/about">About</NavLink>
+
+          <Link href="/cart">
+            <CartCount />
+          </Link>
         </div>
       </div>
     </header>

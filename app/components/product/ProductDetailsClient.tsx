@@ -1,5 +1,7 @@
 "use client";
 
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/store/slices/cartSlice";
 import dynamic from "next/dynamic";
 import { splitName } from "@/app/utils/helper";
 import StockCTA from "@/app/components/product/StockCTA";
@@ -18,25 +20,18 @@ export default function ProductDetailsClient({
 }: ProductDetailsClientProps) {
   const variant = product?.variants?.[0];
 
+  const dispatch = useDispatch();
+
   const handleCart = () => {
-    console.log("Added to cart");
-
-    // localStorage example
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-    const newItem = {
-      id: product.id,
-      name: product.enName,
-      quantity: 1,
-      price: variant?.mrpPrice,
-      image: product?.images?.[0],
-    };
-
-    cart.push(newItem);
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    alert("Added to cart!");
+    dispatch(
+      addToCart({
+        uid: product.uid,
+        name: product.enName,
+        price: variant?.mrpPrice || 0,
+        image: product?.images?.[0],
+        stock: variant?.quantity,
+      }),
+    );
   };
 
   return (
@@ -65,7 +60,7 @@ export default function ProductDetailsClient({
             </span>
           </div>
 
-          <StockCTA onClick={handleCart} qty={variant?.quantity} />
+          <StockCTA onClick={handleCart} qty={variant?.quantity || 0} />
         </div>
       </div>
     </div>
