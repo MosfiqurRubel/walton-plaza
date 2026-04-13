@@ -1,30 +1,38 @@
+import { notFound } from "next/navigation";
 import { serverFetch } from "@/app/lib/graphql/serverFetch";
 import { GET_PRODUCT } from "@/app/lib/graphql/queries";
 import { splitName } from "@/app/utils/helper";
 import dynamic from "next/dynamic";
-import PriceDisplay from "@/app/components/product/PriceDisplay";
 import StockCTA from "@/app/components/product/StockCTA";
+import PriceDisplay from "@/app/components/product/PriceDisplay";
 import VariantSelector from "@/app/components/VariantSelector";
+import Heading from "@/app/components/ui/Heading";
 // import { notFound } from "next/navigation";
 // import ImageGallery from "@/app/components/ImageGallery";
 
-export default async function ProductDetails({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+type ProductDetailsProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+export default async function ProductDetails({ params }: ProductDetailsProps) {
   const { slug } = await params; // 🔥 MUST DO
 
   const data = await serverFetch(GET_PRODUCT, {
     uid: slug,
   });
 
-  // if (!data) notFound();
-
   const product = data?.getProducts?.result?.products?.[0];
   const variant = product.variants?.[0];
+  const hasDiscount = variant?.discount !== null;
 
-  if (!product) return <p className="text-red-500">Product not found</p>;
+  // sellingPrice = 45000 - (45000 × 15 / 100) = 45000 - 6750 = 38,250
+  const sellingPrice =
+    variant?.mrpPrice -
+    (variant?.mrpPrice * variant?.discount.percentage) / 100;
+
+  if (!product) return notFound();
 
   console.log("Product details ", product);
 
@@ -50,15 +58,7 @@ export default async function ProductDetails({
           <h2 className="text-base">{splitName(product.enName).secondLine}</h2>
         </div>
 
-        <PriceDisplay
-          mrpPrice={variant?.mrpPrice}
-          discount={{
-            amount: variant?.discount?.value,
-            type: variant?.discount?.type,
-            value: variant?.discount?.amount,
-          }}
-          // discount={{ amount: 38250, type: "percentage", value: 15 }}
-        />
+        <PriceDisplay variant={variant} />
 
         <ImageGallery images={ProductImages} />
 
