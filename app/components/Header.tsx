@@ -30,7 +30,6 @@ export default function Header() {
       )}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
         <h1
           className={clsx(
             "font-bold text-sky-900 transition-all",
@@ -40,13 +39,11 @@ export default function Header() {
           <NavLink href="/home">MyShop</NavLink>
         </h1>
 
-        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           <NavLink href="/home">Home</NavLink>
           <NavLink href="/products">Products</NavLink>
           <NavLink href="/about">About</NavLink>
 
-          {/* Cart */}
           <div className="relative">
             <ShoppingCart className="w-6 h-6 cursor-pointer" />
 
@@ -58,7 +55,6 @@ export default function Header() {
           </div>
         </nav>
 
-        {/* Mobile Button */}
         <Button
           className="md:hidden"
           onClick={() => setOpen(!open)}
@@ -67,14 +63,13 @@ export default function Header() {
         />
       </div>
 
-      {/* Mobile Menu */}
       <div
         className={clsx(
           "md:hidden overflow-hidden transition-all duration-300",
           open ? "max-h-60" : "max-h-0",
         )}
       >
-        <div className="px-6 pb-4 flex flex-col gap-4">
+        <div className="px-6 pb-4 flex flex-col items-center gap-4">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/products">Products</NavLink>
           <NavLink href="/about">About</NavLink>
